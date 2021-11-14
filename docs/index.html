@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+
+    <title>Button simulator</title>
+    <meta name="description" content="A basic button simulator">
+    <meta name="author" content="Blackcatgame77">
+  </head>
+
+  <body>
+    <canvas id="canvas" width="1920" height="1080" style="border:1px solid lightgrey;">
+      Your browser does not support the HTML5 canvas tag.
+    </canvas>
+    <script>
+      "use strict";
+      let canvas;
+      let context;
+
+      window.onload = init;
+
+      window.onclick = function() {
+        sceneChanger(event);
+        multiGiver(event);
+        rebGiver(event);
+        stoneGiver(event);
+        whiteGemsGiver(event);
+        rebuildGiver(event);
+      }
+      function init() {
+        canvas = document.getElementById('canvas');
+        context = canvas.getContext('2d');
+        window.requestAnimationFrame(gameLoop);
+      }
+
+      function gameLoop(timeStamp) {
+        draw();
+        window.requestAnimationFrame(gameLoop);
+      }
+
+    </script>
+  </body>
+
+</html>
