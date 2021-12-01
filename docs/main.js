@@ -1,13 +1,37 @@
 var scene = 'spawnB'
 var cash = 0;
-var multi = 2.4e+60;
-var rebirth = 5e+30;
-var stone = 5e+8;
-var whiteGems = 500;
+var multi = 0;
+var rebirth = 0;
+var stone = 0;
+var whiteGems = 0;
 var crystal = 0;
 var upgrades = false;
 var stats = false;
 var gems = 0;
+var width = window.screen.width;
+var height = window.screen.height;
+var scale = ((1920 / width) / (1080 / height)) / 2;
+var time = 0;
+
+function saveGame() {
+  localStorage.setItem('Cash', cash);
+  localStorage.setItem('Multiplier', multi);
+  localStorage.setItem('Rebirth', rebirth);
+  localStorage.setItem('Stone', stone);
+  localStorage.setItem('White gems', whiteGems);
+  localStorage.setItem('Crystal', crystal);
+  localStorage.setItem('Gems', gems);
+}
+
+function loadGame() {
+  cash = parseInt(localStorage.getItem('Cash')) || 0;
+  multi = parseInt(localStorage.getItem('Multiplier')) || 0;
+  rebirth = parseInt(localStorage.getItem('Rebirth')) || 0;
+  stone = parseInt(localStorage.getItem('Stone')) || 0;
+  whiteGems = parseInt(localStorage.getItem('White gems')) || 0;
+  crystal = parseInt(localStorage.getItem('Crystal')) || 0;
+  gems = parseInt(localStorage.getItem('Gems')) || 0;
+}
 
 function drawAll() {
   if (scene === 'spawnB') {
@@ -431,40 +455,44 @@ function drawStuff() {
   //menu bars
   {
     context.strokeStyle = 'black';
-    context.strokeRect(175, 10, 400, 100);
-    context.strokeRect(750, 10, 400, 100);
-    context.strokeRect(1325, 10, 400, 100);
+    context.strokeRect(175 * scale, 10 * scale, 400 * scale, 100 * scale);
+    context.strokeRect(750 * scale, 10 * scale, 400 * scale, 100 * scale);
+    context.strokeRect(1325 * scale, 10 * scale, 400 * scale, 100 * scale);
     context.fillStyle = '#00ff00';
-    context.font = '40px Arial';
-    context.fillText("cash:", 250, 75, 10000, 10000);
-    context.fillText(cashE, 350, 75, 10000, 10000);
+    context.font = 40 * scale + 'px Arial';
+    context.fillText("cash:", 250 * scale, 75 * scale, 10000, 10000);
+    context.fillText(cashE, 350 * scale, 75 * scale, 10000, 10000);
     context.fillStyle = '#ff0000';
-    context.fillText("multi:", 800, 75, 10000, 10000);
-    context.fillText(multiE, 900, 75, 10000, 10000);
+    context.fillText("multi:", 800 * scale, 75 * scale, 10000, 10000);
+    context.fillText(multiE, 900 * scale, 75 * scale, 10000, 10000);
     context.fillStyle = '#008cff'
-    context.fillText("rebirths:", 1375, 75, 10000, 10000);
-    context.fillText(rebirthE, 1525, 75, 10000, 10000);
-    context.strokeRect(30, 465, 200, 100);
-    context.strokeRect(30, 615, 200, 100);
+    context.fillText("rebirths:", 1375 * scale, 75 * scale, 10000, 10000);
+    context.fillText(rebirthE, 1525 * scale, 75 * scale, 10000, 10000);
+    context.strokeRect(30 * scale, 465 * scale, 200 * scale, 100 * scale);
+    context.strokeRect(30 * scale, 615 * scale, 200 * scale, 100 * scale);
     context.fillStyle = 'black';
-    context.font = '30px Arial';
-    context.fillText("updgrades", 50, 530, 10000, 10000);
-    context.fillText("stats", 100, 680, 10000, 10000);
+    context.font = 30 * scale + 'px Arial';
+    context.fillText("updgrades", 50 * scale, 530 * scale, 10000, 10000);
+    context.fillText("stats", 100 * scale, 680 * scale, 10000, 10000);
   }
 }
 
 function drawEssentials() {
-  context.strokeRect(300, 200, 1320, 725);
-  context.font = '40px Arial';
-  context.fillText(scene, 780, 175, 10000, 10000);
+  context.strokeRect(300 * scale, 200 * scale, 1320 * scale, 725 * scale);
+  context.font = 40 * scale + 'px Arial';
+  context.fillText(scene, 780 * scale, 175 * scale, 10000, 10000);
+  context.strokeRect(1675 * scale, 900 * scale, 200 * scale, 100 * scale);
+  context.strokeRect(1675 * scale, 775 * scale, 200 * scale, 100 * scale);
+  context.font = 35 * scale + 'px Arial';
+  context.fillText('save', 1700 * scale, 925 * scale, 1000, 1000);
 }
 
 function multiGiver(event) {
-  let mouseX = event.pageX
-  let mouseY = event.pageY
+  let mouseX = event.pageX;
+  let mouseY = event.pageY;
   //row Sm1
   {
-    if (scene === 'spawn' && cash >= 15 && mouseX >= 325 && mouseX <= 400 && mouseY >= 225 && mouseY <= 300) {
+    if (scene === 'spawn' && cash >= 15 && mouseX >= 325 * scale && mouseX <= 400 * scale && mouseY >= 225 * scale && mouseY <= 300 * scale) {
       if (rebirth < 1) {
         multi += 1;
         cash = 0;
@@ -474,7 +502,7 @@ function multiGiver(event) {
         cash = 0;
       }
     }
-    if (scene === 'spawn' && cash >= 50 && mouseX >= 325 && mouseX <= 400 && mouseY >= 325 && mouseY <= 400) {
+    if (scene === 'spawn' && cash >= 50 && mouseX >= 325 * scale && mouseX <= 400 * scale && mouseY >= 325 * scale && mouseY <= 400 * scale) {
       if (rebirth < 1) {
         multi += 3;
         cash = 0;
@@ -484,7 +512,7 @@ function multiGiver(event) {
         cash = 0;
       }
     }
-    if (scene === 'spawn' && cash >= 100 && mouseX >= 325 && mouseX <= 400 && mouseY >= 425 && mouseY <= 500) {
+    if (scene === 'spawn' && cash >= 100 && mouseX >= 325 * scale && mouseX <= 400 * scale && mouseY >= 425 * scale && mouseY <= 500 * scale) {
       if (rebirth < 1) {
         multi += 5;
         cash = 0;
@@ -494,7 +522,7 @@ function multiGiver(event) {
         cash = 0;
       }
     }
-    if (scene === 'spawn' && cash >= 500 && mouseX >= 325 && mouseX <= 400 && mouseY >= 525 && mouseY <= 600) {
+    if (scene === 'spawn' && cash >= 500 && mouseX >= 325 * scale && mouseX <= 400 * scale && mouseY >= 525 * scale && mouseY <= 600 * scale) {
       if (rebirth < 1) {
         multi += 10;
         cash = 0;
@@ -504,7 +532,7 @@ function multiGiver(event) {
         cash = 0;
       }
     }
-    if (scene === 'spawn' && cash >= 1e+4 && mouseX >= 325 && mouseX <= 400 && mouseY >= 625 && mouseY <= 700) {
+    if (scene === 'spawn' && cash >= 1e+4 && mouseX >= 325 * scale && mouseX <= 400 * scale && mouseY >= 625 * scale && mouseY <= 700 * scale) {
       if (rebirth < 1) {
         multi += 45;
         cash = 0;
@@ -514,7 +542,7 @@ function multiGiver(event) {
         cash = 0;
       }
     }
-    if (scene === 'spawn' && cash >= 7.5e+4 && mouseX >= 325 && mouseX <= 400 && mouseY >= 725 && mouseY <= 800) {
+    if (scene === 'spawn' && cash >= 7.5e+4 && mouseX >= 325 * scale && mouseX <= 400 * scale && mouseY >= 725 * scale && mouseY <= 800 * scale) {
       if (rebirth < 1) {
         multi += 100;
         cash = 0;
@@ -524,7 +552,7 @@ function multiGiver(event) {
         cash = 0;
       }
     }
-    if (scene === 'spawn' && cash >= 1e+6 && mouseX >= 325 && mouseX <= 400 && mouseY >= 825 && mouseY <= 900) {
+    if (scene === 'spawn' && cash >= 1e+6 && mouseX >= 325 * scale && mouseX <= 400 * scale && mouseY >= 825 * scale && mouseY <= 900 * scale) {
       if (rebirth < 1) {
         multi += 300;
         cash = 0;
@@ -537,7 +565,7 @@ function multiGiver(event) {
   }
   //row Sm2
   {
-    if (scene === 'spawn' && cash >= 3e+7 && mouseX >= 425 && mouseX <= 500 && mouseY >= 225 && mouseY <= 300) {
+    if (scene === 'spawn' && cash >= 3e+7 && mouseX >= 425 * scale && mouseX <= 500 * scale && mouseY >= 225 * scale && mouseY <= 300 * scale) {
       if (rebirth < 1) {
         multi += 500;
         cash = 0;
@@ -547,7 +575,7 @@ function multiGiver(event) {
         cash = 0;
       }
     }
-    if (scene === 'spawn' && cash >= 1e+8 && mouseX >= 425 && mouseX <= 500 && mouseY >= 325 && mouseY <= 400) {
+    if (scene === 'spawn' && cash >= 1e+8 && mouseX >= 425 * scale && mouseX <= 500 * scale && mouseY >= 325 * scale && mouseY <= 400 * scale) {
       if (rebirth < 1) {
         multi += 1000;
         cash = 0;
@@ -557,7 +585,7 @@ function multiGiver(event) {
         cash = 0;
       }
     }
-    if (scene === 'spawn' && cash >= 1e+9 && mouseX >= 425 && mouseX <= 500 && mouseY >= 425 && mouseY <= 500) {
+    if (scene === 'spawn' && cash >= 1e+9 && mouseX >= 425 * scale && mouseX <= 500 * scale && mouseY >= 425 * scale && mouseY <= 500 * scale) {
       if (rebirth < 1) {
         multi += 5000;
         cash = 0;
@@ -567,7 +595,7 @@ function multiGiver(event) {
         cash = 0;
       }
     }
-    if (scene === 'spawn' && cash >= 5e+9 && mouseX >= 425 && mouseX <= 500 && mouseY >= 525 && mouseY <= 600) {
+    if (scene === 'spawn' && cash >= 5e+9 && mouseX >= 425 * scale && mouseX <= 500 * scale && mouseY >= 525 * scale && mouseY <= 600 * scale) {
       if (rebirth < 1) {
         multi += 20000;
         cash = 0;
@@ -577,7 +605,7 @@ function multiGiver(event) {
         cash = 0;
       }
     }
-    if (scene === 'spawn' && cash >= 3e+10 && mouseX >= 425 && mouseX <= 500 && mouseY >= 625 && mouseY <= 700) {
+    if (scene === 'spawn' && cash >= 3e+10 && mouseX >= 425 * scale && mouseX <= 500 * scale && mouseY >= 625 * scale && mouseY <= 700 * scale) {
       if (rebirth < 1) {
         multi += 60000;
         cash = 0;
@@ -587,7 +615,7 @@ function multiGiver(event) {
         cash = 0;
       }
     }
-    if (scene === 'spawn' && cash >= 2e+11 && mouseX >= 425 && mouseX <= 500 && mouseY >= 725 && mouseY <= 800) {
+    if (scene === 'spawn' && cash >= 2e+11 && mouseX >= 425 * scale && mouseX <= 500 * scale && mouseY >= 725 * scale && mouseY <= 800 * scale) {
       if (rebirth < 1) {
         multi += 120000;
         cash = 0;
@@ -597,7 +625,7 @@ function multiGiver(event) {
         cash = 0;
       }
     }
-    if (scene === 'spawn' && cash >= 7e+11 && mouseX >= 425 && mouseX <= 500 && mouseY >= 825 && mouseY <= 900) {
+    if (scene === 'spawn' && cash >= 7e+11 && mouseX >= 425 * scale && mouseX <= 500 * scale && mouseY >= 825 * scale && mouseY <= 900 * scale) {
       if (rebirth < 1) {
         multi += 300000;
         cash = 0;
@@ -610,7 +638,7 @@ function multiGiver(event) {
   }
   //row Sm3
   {
-    if (scene === 'spawn' && cash >= 3e+12 && mouseX >= 525 && mouseX <= 600 && mouseY >= 225 && mouseY <= 300) {
+    if (scene === 'spawn' && cash >= 3e+12 && mouseX >= 525 * scale && mouseX <= 600 * scale && mouseY >= 225 * scale && mouseY <= 300 * scale) {
       if (rebirth < 1) {
         multi += 1e+6;
         cash = 0;
@@ -620,7 +648,7 @@ function multiGiver(event) {
         cash = 0;
       }
     }
-    if (scene === 'spawn' && cash >= 1e+13 && mouseX >= 525 && mouseX <= 600 && mouseY >= 325 && mouseY <= 400) {
+    if (scene === 'spawn' && cash >= 1e+13 && mouseX >= 525 * scale && mouseX <= 600 * scale && mouseY >= 325 * scale && mouseY <= 400 * scale) {
       if (rebirth < 1) {
         multi += 4e+6;
         cash = 0;
@@ -630,7 +658,7 @@ function multiGiver(event) {
         cash = 0;
       }
     }
-    if (scene === 'spawn' && cash >= 5e+13 && mouseX >= 525 && mouseX <= 600 && mouseY >= 425 && mouseY <= 500) {
+    if (scene === 'spawn' && cash >= 5e+13 && mouseX >= 525 * scale && mouseX <= 600 * scale && mouseY >= 425 * scale && mouseY <= 500 * scale) {
       if (rebirth < 1) {
         multi += 1e+7;
         cash = 0;
@@ -640,7 +668,7 @@ function multiGiver(event) {
         cash = 0;
       }
     }
-    if (scene === 'spawn' && cash >= 1.2e+14 && mouseX >= 525 && mouseX <= 600 && mouseY >= 525 && mouseY <= 600) {
+    if (scene === 'spawn' && cash >= 1.2e+14 && mouseX >= 525 * scale && mouseX <= 600 * scale && mouseY >= 525 * scale && mouseY <= 600 * scale) {
       if (rebirth < 1) {
         multi += 5e+7;
         cash = 0;
@@ -650,7 +678,7 @@ function multiGiver(event) {
         cash = 0;
       }
     }
-    if (scene === 'spawn' && cash >= 4e+14 && mouseX >= 525 && mouseX <= 600 && mouseY >= 625 && mouseY <= 700) {
+    if (scene === 'spawn' && cash >= 4e+14 && mouseX >= 525 * scale && mouseX <= 600 * scale && mouseY >= 625 * scale && mouseY <= 700 * scale) {
       if (rebirth < 1) {
         multi += 8e+7;
         cash = 0;
@@ -660,7 +688,7 @@ function multiGiver(event) {
         cash = 0;
       }
     }
-    if (scene === 'spawn' && cash >= 1e+15 && mouseX >= 525 && mouseX <= 600 && mouseY >= 725 && mouseY <= 800) {
+    if (scene === 'spawn' && cash >= 1e+15 && mouseX >= 525 * scale && mouseX <= 600 * scale && mouseY >= 725 * scale && mouseY <= 800 * scale) {
       if (rebirth < 1) {
         multi += 2e+8;
         cash = 0;
@@ -670,7 +698,7 @@ function multiGiver(event) {
         cash = 0;
       }
     }
-    if (scene === 'spawn' && cash >= 5e+15 && mouseX >= 525 && mouseX <= 600 && mouseY >= 825 && mouseY <= 900) {
+    if (scene === 'spawn' && cash >= 5e+15 && mouseX >= 525 * scale && mouseX <= 600 * scale && mouseY >= 825 * scale && mouseY <= 900 * scale) {
       if (rebirth < 1) {
         multi += 1e+9;
         cash = 0;
@@ -683,7 +711,7 @@ function multiGiver(event) {
   }
   //row Sm4
   {
-    if (scene === 'spawn' && cash >= 2.5e+16 && mouseX >= 625 && mouseX <= 700 && mouseY >= 225 && mouseY <= 300) {
+    if (scene === 'spawn' && cash >= 2.5e+16 && mouseX >= 625 * scale && mouseX <= 700 * scale && mouseY >= 225 * scale && mouseY <= 300 * scale) {
       if (rebirth < 1) {
         multi += 4e+9;
         cash = 0;
@@ -693,7 +721,7 @@ function multiGiver(event) {
         cash = 0;
       }
     }
-    if (scene === 'spawn' && cash >= 1e+17 && mouseX >= 625 && mouseX <= 700 && mouseY >= 325 && mouseY <= 400) {
+    if (scene === 'spawn' && cash >= 1e+17 && mouseX >= 625 * scale && mouseX <= 700 * scale && mouseY >= 325 * scale && mouseY <= 400 * scale) {
       if (rebirth < 1) {
         multi += 1e+10;
         cash = 0;
@@ -1295,7 +1323,7 @@ function rebGiver(event) {
   }
   //row Cr3
   {
-  	if (scene === 'caves' && multi >= 1e+42 && mouseX >= 825 && mouseX <= 900 && mouseY >= 225 && mouseY <= 300) {
+    if (scene === 'caves' && multi >= 1e+42 && mouseX >= 825 && mouseX <= 900 && mouseY >= 225 && mouseY <= 300) {
       if (stone < 1) {
         rebirth += 3e+20;
         multi = 0;
@@ -1372,71 +1400,71 @@ function stoneGiver(event) {
   }
   //row Cs1
   {
-  	if (scene === 'caves' && rebirth >= 2.5e+11 && mouseX >= 825 && mouseX <= 900 && mouseY >= 425 && mouseY <= 500) {
-    	if (whiteGems < 1) {
-      	stone += 26;
+    if (scene === 'caves' && rebirth >= 2.5e+11 && mouseX >= 825 && mouseX <= 900 && mouseY >= 425 && mouseY <= 500) {
+      if (whiteGems < 1) {
+        stone += 26;
         rebirth = 0;
         multi = 0;
         cash = 0;
       }
       if (whiteGems >= 1) {
-      	stone += 26 * whiteGems * 2;
+        stone += 26 * whiteGems * 2;
         rebirth = 0;
         multi = 0;
         cash = 0;
       }
     }
     if (scene === 'caves' && rebirth >= 1e+15 && mouseX >= 825 && mouseX <= 900 && mouseY >= 525 && mouseY <= 600) {
-    	if (whiteGems < 1) {
-      	stone += 120;
+      if (whiteGems < 1) {
+        stone += 120;
         rebirth = 0;
         multi = 0;
         cash = 0;
       }
       if (whiteGems >= 1) {
-      	stone += 120 * whiteGems * 2;
+        stone += 120 * whiteGems * 2;
         rebirth = 0;
         multi = 0;
         cash = 0;
       }
     }
     if (scene === 'caves' && rebirth >= 7e+17 && mouseX >= 825 && mouseX <= 900 && mouseY >= 625 && mouseY <= 700) {
-    	if (whiteGems < 1) {
-      	stone += 450;
+      if (whiteGems < 1) {
+        stone += 450;
         rebirth = 0;
         multi = 0;
         cash = 0;
       }
       if (whiteGems >= 1) {
-      	stone += 450 * whiteGems * 2;
+        stone += 450 * whiteGems * 2;
         rebirth = 0;
         multi = 0;
         cash = 0;
       }
     }
     if (scene === 'caves' && rebirth >= 6.5e+20 && mouseX >= 825 && mouseX <= 900 && mouseY >= 725 && mouseY <= 800) {
-    	if (whiteGems < 1) {
-      	stone += 5000;
+      if (whiteGems < 1) {
+        stone += 5000;
         rebirth = 0;
         multi = 0;
         cash = 0;
       }
       if (whiteGems >= 1) {
-      	stone += 5000 * whiteGems * 2;
+        stone += 5000 * whiteGems * 2;
         rebirth = 0;
         multi = 0;
         cash = 0;
       }
     }
     if (scene === 'caves' && rebirth >= 1e+24 && mouseX >= 825 && mouseX <= 900 && mouseY >= 825 && mouseY <= 900) {
-    	if (whiteGems < 1) {
-      	stone += 15000;
+      if (whiteGems < 1) {
+        stone += 15000;
         rebirth = 0;
         multi = 0;
         cash = 0;
       }
       if (whiteGems >= 1) {
-      	stone += 15000 * whiteGems * 2;
+        stone += 15000 * whiteGems * 2;
         rebirth = 0;
         multi = 0;
         cash = 0;
@@ -1445,57 +1473,57 @@ function stoneGiver(event) {
   }
   //row Cs2
   {
-  	if (scene === 'caves' && rebirth >= 8e+28 && mouseX >= 925 && mouseX <= 1000 && mouseY >= 225 && mouseY <= 300) {
-    	if (whiteGems < 1) {
-      	stone += 32000;
+    if (scene === 'caves' && rebirth >= 8e+28 && mouseX >= 925 && mouseX <= 1000 && mouseY >= 225 && mouseY <= 300) {
+      if (whiteGems < 1) {
+        stone += 32000;
         rebirth = 0;
         multi = 0;
         cash = 0;
       }
       if (whiteGems >= 1) {
-      	stone += 32000 * whiteGems * 2;
+        stone += 32000 * whiteGems * 2;
         rebirth = 0;
         multi = 0;
         cash = 0;
       }
     }
     if (scene === 'caves' && rebirth >= 7e+29 && mouseX >= 925 && mouseX <= 1000 && mouseY >= 325 && mouseY <= 400) {
-    	if (whiteGems < 1) {
-      	stone += 85000;
+      if (whiteGems < 1) {
+        stone += 85000;
         rebirth = 0;
         multi = 0;
         cash = 0;
       }
       if (whiteGems >= 1) {
-      	stone += 85000 * whiteGems * 2;
+        stone += 85000 * whiteGems * 2;
         rebirth = 0;
         multi = 0;
         cash = 0;
       }
     }
-  	if (scene === 'caves' && rebirth >= 3e+30 && mouseX >= 925 && mouseX <= 1000 && mouseY >= 425 && mouseY <= 500) {
-    	if (whiteGems < 1) {
-      	stone += 3e+5;
+    if (scene === 'caves' && rebirth >= 3e+30 && mouseX >= 925 && mouseX <= 1000 && mouseY >= 425 && mouseY <= 500) {
+      if (whiteGems < 1) {
+        stone += 3e+5;
         rebirth = 0;
         multi = 0;
         cash = 0;
       }
       if (whiteGems >= 1) {
-      	stone += 3e+5 * whiteGems * 2;
+        stone += 3e+5 * whiteGems * 2;
         rebirth = 0;
         multi = 0;
         cash = 0;
       }
     }
     if (scene === 'caves' && rebirth >= 2.4e+31 && mouseX >= 925 && mouseX <= 1000 && mouseY >= 525 && mouseY <= 600) {
-    	if (whiteGems < 1) {
-      	stone += 1e+6;
+      if (whiteGems < 1) {
+        stone += 1e+6;
         rebirth = 0;
         multi = 0;
         cash = 0;
       }
       if (whiteGems >= 1) {
-      	stone += 1e+6 * whiteGems * 2;
+        stone += 1e+6 * whiteGems * 2;
         rebirth = 0;
         multi = 0;
         cash = 0;
@@ -1505,20 +1533,20 @@ function stoneGiver(event) {
 }
 
 function whiteGemsGiver(event) {
-	let mouseX = event.pageX
+  let mouseX = event.pageX
   let mouseY = event.pageY
   //row Cwg1
   {
-  	if (scene === 'caves' && stone >= 5000 && mouseX >= 925 && mouseX <= 1000 && mouseY >= 625 && mouseY <= 700) {
-    	if (crystal < 1) {
-      	whiteGems += 1;
+    if (scene === 'caves' && stone >= 5000 && mouseX >= 925 && mouseX <= 1000 && mouseY >= 625 && mouseY <= 700) {
+      if (crystal < 1) {
+        whiteGems += 1;
         stone = 0;
         rebirth = 0;
         multi = 0;
         cash = 0;
       }
       if (crystal >= 1) {
-      	whiteGems += 1 * crystal * 2
+        whiteGems += 1 * crystal * 2
         stone = 0;
         rebirth = 0;
         multi = 0;
@@ -1526,15 +1554,15 @@ function whiteGemsGiver(event) {
       }
     }
     if (scene === 'caves' && stone >= 60000 && mouseX >= 925 && mouseX <= 1000 && mouseY >= 725 && mouseY <= 800) {
-    	if (crystal < 1) {
-      	whiteGems += 3;
+      if (crystal < 1) {
+        whiteGems += 3;
         stone = 0;
         rebirth = 0;
         multi = 0;
         cash = 0;
       }
       if (crystal >= 1) {
-      	whiteGems += 3 * crystal * 2
+        whiteGems += 3 * crystal * 2
         stone = 0;
         rebirth = 0;
         multi = 0;
@@ -1542,15 +1570,15 @@ function whiteGemsGiver(event) {
       }
     }
     if (scene === 'caves' && stone >= 500000 && mouseX >= 925 && mouseX <= 1000 && mouseY >= 825 && mouseY <= 900) {
-    	if (crystal < 1) {
-      	whiteGems += 10;
+      if (crystal < 1) {
+        whiteGems += 10;
         stone = 0;
         rebirth = 0;
         multi = 0;
         cash = 0;
       }
       if (crystal >= 1) {
-      	whiteGems += 10 * crystal * 2
+        whiteGems += 10 * crystal * 2
         stone = 0;
         rebirth = 0;
         multi = 0;
@@ -1560,16 +1588,16 @@ function whiteGemsGiver(event) {
   }
   //row Cwg2
   {
-  	if (scene === 'caves' && stone >= 1e+7 && mouseX >= 1025 && mouseX <= 1100 && mouseY >= 225 && mouseY <= 300) {
-    	if (crystal < 1) {
-      	whiteGems += 30;
+    if (scene === 'caves' && stone >= 1e+7 && mouseX >= 1025 && mouseX <= 1100 && mouseY >= 225 && mouseY <= 300) {
+      if (crystal < 1) {
+        whiteGems += 30;
         stone = 0;
         rebirth = 0;
         multi = 0;
         cash = 0;
       }
       if (crystal >= 1) {
-      	whiteGems += 30 * crystal * 2
+        whiteGems += 30 * crystal * 2
         stone = 0;
         rebirth = 0;
         multi = 0;
@@ -1577,15 +1605,15 @@ function whiteGemsGiver(event) {
       }
     }
     if (scene === 'caves' && stone >= 2e+8 && mouseX >= 1025 && mouseX <= 1100 && mouseY >= 325 && mouseY <= 400) {
-    	if (crystal < 1) {
-      	whiteGems += 86;
+      if (crystal < 1) {
+        whiteGems += 86;
         stone = 0;
         rebirth = 0;
         multi = 0;
         cash = 0;
       }
       if (crystal >= 1) {
-      	whiteGems += 86 * crystal * 2
+        whiteGems += 86 * crystal * 2
         stone = 0;
         rebirth = 0;
         multi = 0;
@@ -1596,7 +1624,7 @@ function whiteGemsGiver(event) {
 }
 
 function rebuildGiver(event) {
-	let mouseX = event.pageX
+  let mouseX = event.pageX
   let mouseY = event.pageY
   //row Srb1
   {
@@ -1634,164 +1662,164 @@ function drawSceneSpawn() {
   //multiplier buttons
   {
     context.fillStyle = '#ff0000';
-    context.fillRect(325, 225, 75, 75);
-    context.fillRect(325, 325, 75, 75);
-    context.fillRect(325, 425, 75, 75);
-    context.fillRect(325, 525, 75, 75);
-    context.fillRect(325, 625, 75, 75);
-    context.fillRect(325, 725, 75, 75);
-    context.fillRect(325, 825, 75, 75);
-    context.fillRect(425, 225, 75, 75);
-    context.fillRect(425, 325, 75, 75);
-    context.fillRect(425, 425, 75, 75);
-    context.fillRect(425, 525, 75, 75);
-    context.fillRect(425, 625, 75, 75);
-    context.fillRect(425, 725, 75, 75);
-    context.fillRect(425, 825, 75, 75);
-    context.fillRect(525, 225, 75, 75);
-    context.fillRect(525, 325, 75, 75);
-    context.fillRect(525, 425, 75, 75);
-    context.fillRect(525, 525, 75, 75);
-    context.fillRect(525, 625, 75, 75);
-    context.fillRect(525, 725, 75, 75);
-    context.fillRect(525, 825, 75, 75);
-    context.fillRect(625, 225, 75, 75);
-    context.fillRect(625, 325, 75, 75);
-    context.font = '15px Arial';
+    context.fillRect(325 * scale, 225 * scale, 75 * scale, 75 * scale);
+    context.fillRect(325 * scale, 325 * scale, 75 * scale, 75 * scale);
+    context.fillRect(325 * scale, 425 * scale, 75 * scale, 75 * scale);
+    context.fillRect(325 * scale, 525 * scale, 75 * scale, 75 * scale);
+    context.fillRect(325 * scale, 625 * scale, 75 * scale, 75 * scale);
+    context.fillRect(325 * scale, 725 * scale, 75 * scale, 75 * scale);
+    context.fillRect(325 * scale, 825 * scale, 75 * scale, 75 * scale);
+    context.fillRect(425 * scale, 225 * scale, 75 * scale, 75 * scale);
+    context.fillRect(425 * scale, 325 * scale, 75 * scale, 75 * scale);
+    context.fillRect(425 * scale, 425 * scale, 75 * scale, 75 * scale);
+    context.fillRect(425 * scale, 525 * scale, 75 * scale, 75 * scale);
+    context.fillRect(425 * scale, 625 * scale, 75 * scale, 75 * scale);
+    context.fillRect(425 * scale, 725 * scale, 75 * scale, 75 * scale);
+    context.fillRect(425 * scale, 825 * scale, 75 * scale, 75 * scale);
+    context.fillRect(525 * scale, 225 * scale, 75 * scale, 75 * scale);
+    context.fillRect(525 * scale, 325 * scale, 75 * scale, 75 * scale);
+    context.fillRect(525 * scale, 425 * scale, 75 * scale, 75 * scale);
+    context.fillRect(525 * scale, 525 * scale, 75 * scale, 75 * scale);
+    context.fillRect(525 * scale, 625 * scale, 75 * scale, 75 * scale);
+    context.fillRect(525 * scale, 725 * scale, 75 * scale, 75 * scale);
+    context.fillRect(525 * scale, 825 * scale, 75 * scale, 75 * scale);
+    context.fillRect(625 * scale, 225 * scale, 75 * scale, 75 * scale);
+    context.fillRect(625 * scale, 325 * scale, 75 * scale, 75 * scale);
+    context.font = 15 * scale + 'px Arial';
     context.fillStyle = 'black';
-    context.fillText("1 multi", 340, 250, 100, 100);
-    context.fillText("15 cash", 335, 270, 100, 100);
-    context.fillText("3 multi", 340, 350, 100, 100);
-    context.fillText("50 cash", 335, 370, 100, 100);
-    context.fillText("5 multi", 340, 450, 100, 100);
-    context.fillText("100 cash", 330, 470, 100, 100);
-    context.fillText("10 multi", 335, 550, 100, 100);
-    context.fillText("500 cash", 330, 570, 100, 100);
-    context.fillText("45 multi", 335, 650, 100, 100);
-    context.fillText("10K cash", 330, 670, 100, 100);
-    context.fillText("100 multi", 330, 750, 100, 100);
-    context.fillText("75K cash", 330, 770, 100, 100);
-    context.fillText("300 multi", 330, 850, 100, 100);
-    context.fillText("1M cash", 335, 870, 100, 100);
-    context.fillText("500 multi", 430, 250, 100, 100);
-    context.fillText("30M cash", 430, 270, 100, 100);
-    context.fillText("1K multi", 435, 350, 100, 100);
-    context.fillText("100M cash", 425, 370, 100, 100);
-    context.fillText("5K multi", 435, 450, 100, 100);
-    context.fillText("1B cash", 435, 470, 100, 100);
-    context.fillText("20K multi", 430, 550, 100, 100);
-    context.fillText("5B cash", 435, 570, 100, 100);
-    context.fillText("60k multi", 430, 650, 100, 100);
-    context.fillText("30B cash", 430, 670, 100, 100);
-    context.fillText("120K multi", 425, 750, 100, 100);
-    context.fillText("200B cash", 425, 770, 100, 100);
-    context.fillText("300k multi", 425, 850, 100, 100);
-    context.fillText("700B cash", 425, 870, 100, 100);
-    context.fillText("1M multi", 530, 250, 100, 100);
-    context.fillText("3T cash", 535, 270, 100, 100);
-    context.fillText("4M multi", 535, 350, 100, 100);
-    context.fillText("10T cash", 530, 370, 100, 100);
-    context.fillText("10M multi", 530, 450, 100, 100);
-    context.fillText("50T cash", 530, 470, 100, 100);
-    context.fillText("50M multi", 530, 550, 100, 100);
-    context.fillText("120T cash", 525, 570, 100, 100);
-    context.fillText("80M multi", 530, 650, 100, 100);
-    context.fillText("400T cash", 525, 670, 100, 100);
-    context.fillText("200M multi", 525, 750, 100, 100);
-    context.fillText("1Qd cash", 530, 770, 100, 100);
-    context.fillText("1B multi", 535, 850, 100, 100);
-    context.fillText("5Qd cash", 530, 870, 100, 100);
-    context.fillText("4B multi", 635, 250, 100, 100);
-    context.fillText("25Qd cash", 625, 270, 100, 100);
-    context.fillText("10B multi", 630, 350, 100, 100);
-    context.fillText("100Qd cash", 625, 370, 100, 100);
+    context.fillText("1 multi", 340 * scale, 250 * scale, 100, 100);
+    context.fillText("15 cash", 335 * scale, 270 * scale, 100, 100);
+    context.fillText("3 multi", 340 * scale, 350 * scale, 100, 100);
+    context.fillText("50 cash", 335 * scale, 370 * scale, 100, 100);
+    context.fillText("5 multi", 340 * scale, 450 * scale, 100, 100);
+    context.fillText("100 cash", 330 * scale, 470 * scale, 100, 100);
+    context.fillText("10 multi", 335 * scale, 550 * scale, 100, 100);
+    context.fillText("500 cash", 330 * scale, 570 * scale, 100, 100);
+    context.fillText("45 multi", 335 * scale, 650 * scale, 100, 100);
+    context.fillText("10K cash", 330 * scale, 670 * scale, 100, 100);
+    context.fillText("100 multi", 330 * scale, 750 * scale, 100, 100);
+    context.fillText("75K cash", 330 * scale, 770 * scale, 100, 100);
+    context.fillText("300 multi", 330 * scale, 850 * scale, 100, 100);
+    context.fillText("1M cash", 335 * scale, 870 * scale, 100, 100);
+    context.fillText("500 multi", 430 * scale, 250 * scale, 100, 100);
+    context.fillText("30M cash", 430 * scale, 270 * scale, 100, 100);
+    context.fillText("1K multi", 435 * scale, 350 * scale, 100, 100);
+    context.fillText("100M cash", 425 * scale, 370 * scale, 100, 100);
+    context.fillText("5K multi", 435 * scale, 450 * scale, 100, 100);
+    context.fillText("1B cash", 435 * scale, 470 * scale, 100, 100);
+    context.fillText("20K multi", 430 * scale, 550 * scale, 100, 100);
+    context.fillText("5B cash", 435 * scale, 570 * scale, 100, 100);
+    context.fillText("60k multi", 430 * scale, 650 * scale, 100, 100);
+    context.fillText("30B cash", 430 * scale, 670 * scale, 100, 100);
+    context.fillText("120K multi", 425 * scale, 750 * scale, 100, 100);
+    context.fillText("200B cash", 425 * scale, 770 * scale, 100, 100);
+    context.fillText("300k multi", 425 * scale, 850 * scale, 100, 100);
+    context.fillText("700B cash", 425 * scale, 870 * scale, 100, 100);
+    context.fillText("1M multi", 530 * scale, 250 * scale, 100, 100);
+    context.fillText("3T cash", 535 * scale, 270 * scale, 100, 100);
+    context.fillText("4M multi", 535 * scale, 350 * scale, 100, 100);
+    context.fillText("10T cash", 530 * scale, 370 * scale, 100, 100);
+    context.fillText("10M multi", 530 * scale, 450 * scale, 100, 100);
+    context.fillText("50T cash", 530 * scale, 470 * scale, 100, 100);
+    context.fillText("50M multi", 530 * scale, 550 * scale, 100, 100);
+    context.fillText("120T cash", 525 * scale, 570 * scale, 100, 100);
+    context.fillText("80M multi", 530 * scale, 650 * scale, 100, 100);
+    context.fillText("400T cash", 525 * scale, 670 * scale, 100, 100);
+    context.fillText("200M multi", 525 * scale, 750 * scale, 100, 100);
+    context.fillText("1Qd cash", 530 * scale, 770 * scale, 100, 100);
+    context.fillText("1B multi", 535 * scale, 850 * scale, 100, 100);
+    context.fillText("5Qd cash", 530 * scale, 870 * scale, 100, 100);
+    context.fillText("4B multi", 635 * scale, 250 * scale, 100, 100);
+    context.fillText("25Qd cash", 625 * scale, 270 * scale, 100, 100);
+    context.fillText("10B multi", 630 * scale, 350 * scale, 100, 100);
+    context.fillText("100Qd cash", 625 * scale, 370 * scale, 100, 100);
   }
   //rebirth buttons
   {
     context.fillStyle = '#008cff';
-    context.fillRect(625, 425, 75, 75);
-    context.fillRect(625, 525, 75, 75);
-    context.fillRect(625, 625, 75, 75);
-    context.fillRect(625, 725, 75, 75);
-    context.fillRect(625, 825, 75, 75);
-    context.fillRect(725, 225, 75, 75);
-    context.fillRect(725, 325, 75, 75);
-    context.fillRect(725, 425, 75, 75);
-    context.fillRect(725, 525, 75, 75);
-    context.fillRect(725, 625, 75, 75);
-    context.fillRect(725, 725, 75, 75);
-    context.fillRect(725, 825, 75, 75);
-    context.fillRect(825, 225, 75, 75);
-    context.fillRect(825, 325, 75, 75);
-    context.fillRect(825, 425, 75, 75);
+    context.fillRect(625 * scale, 425 * scale, 75 * scale, 75 * scale);
+    context.fillRect(625 * scale, 525 * scale, 75 * scale, 75 * scale);
+    context.fillRect(625 * scale, 625 * scale, 75 * scale, 75 * scale);
+    context.fillRect(625 * scale, 725 * scale, 75 * scale, 75 * scale);
+    context.fillRect(625 * scale, 825 * scale, 75 * scale, 75 * scale);
+    context.fillRect(725 * scale, 225 * scale, 75 * scale, 75 * scale);
+    context.fillRect(725 * scale, 325 * scale, 75 * scale, 75 * scale);
+    context.fillRect(725 * scale, 425 * scale, 75 * scale, 75 * scale);
+    context.fillRect(725 * scale, 525 * scale, 75 * scale, 75 * scale);
+    context.fillRect(725 * scale, 625 * scale, 75 * scale, 75 * scale);
+    context.fillRect(725 * scale, 725 * scale, 75 * scale, 75 * scale);
+    context.fillRect(725 * scale, 825 * scale, 75 * scale, 75 * scale);
+    context.fillRect(825 * scale, 225 * scale, 75 * scale, 75 * scale);
+    context.fillRect(825 * scale, 325 * scale, 75 * scale, 75 * scale);
+    context.fillRect(825 * scale, 425 * scale, 75 * scale, 75 * scale);
     context.fillStyle = 'black';
-    context.fillText("1 reb", 640, 450, 100, 100);
-    context.fillText("2K multi", 635, 470, 100, 100);
-    context.fillText("5 reb", 640, 550, 100, 100);
-    context.fillText("15K multi", 630, 570, 100, 100);
-    context.fillText("23 reb", 635, 650, 100, 100);
-    context.fillText("600K multi", 625, 670, 100, 100);
-    context.fillText("69 reb", 635, 750, 100, 100);
-    context.fillText("12M multi", 630, 770, 100, 100);
-    context.fillText("272 reb", 630, 850, 100, 100);
-    context.fillText("700M multi", 625, 870, 100, 100);
-    context.fillText("1K reb", 740, 250, 100, 100);
-    context.fillText("3B multi", 735, 270, 100, 100);
-    context.fillText("5K reb", 740, 350, 100, 100);
-    context.fillText("15B multi", 730, 370, 100, 100);
-    context.fillText("20K reb", 735, 450, 100, 100);
-    context.fillText("50B multi", 730, 470, 100, 100);
-    context.fillText("50K reb", 735, 550, 100, 100);
-    context.fillText("600B multi", 730, 570, 100, 100);
-    context.fillText("100K reb", 735, 650, 100, 100);
-    context.fillText("1T multi", 735, 670, 100, 100);
-    context.fillText("500K reb", 730, 750, 100, 100);
-    context.fillText("75T multi", 730, 770, 100, 100);
-    context.fillText("1M reb", 735, 850, 100, 100);
-    context.fillText("400T multi", 730, 870, 100, 100);
-    context.fillText("6M reb", 835, 250, 100, 100);
-    context.fillText("2Qd multi", 830, 270, 100, 100);
-    context.fillText("30M reb", 830, 350, 100, 100);
-    context.fillText("15Qd multi", 825, 370, 100, 100);
-    context.fillText("100M reb", 830, 450, 100, 100);
-    context.fillText("50Qd multi", 825, 470, 100, 100);
+    context.fillText("1 reb", 640 * scale, 450 * scale, 100, 100);
+    context.fillText("2K multi", 635 * scale, 470 * scale, 100, 100);
+    context.fillText("5 reb", 640 * scale, 550 * scale, 100, 100);
+    context.fillText("15K multi", 630 * scale, 570 * scale, 100, 100);
+    context.fillText("23 reb", 635 * scale, 650 * scale, 100, 100);
+    context.fillText("600K multi", 625 * scale, 670 * scale, 100, 100);
+    context.fillText("69 reb", 635 * scale, 750 * scale, 100, 100);
+    context.fillText("12M multi", 630 * scale, 770 * scale, 100, 100);
+    context.fillText("272 reb", 630 * scale, 850 * scale, 100, 100);
+    context.fillText("700M multi", 625 * scale, 870 * scale, 100, 100);
+    context.fillText("1K reb", 740 * scale, 250 * scale, 100, 100);
+    context.fillText("3B multi", 735 * scale, 270 * scale, 100, 100);
+    context.fillText("5K reb", 740 * scale, 350 * scale, 100, 100);
+    context.fillText("15B multi", 730 * scale, 370 * scale, 100, 100);
+    context.fillText("20K reb", 735 * scale, 450 * scale, 100, 100);
+    context.fillText("50B multi", 730 * scale, 470 * scale, 100, 100);
+    context.fillText("50K reb", 735 * scale, 550 * scale, 100, 100);
+    context.fillText("600B multi", 730 * scale, 570 * scale, 100, 100);
+    context.fillText("100K reb", 735 * scale, 650 * scale, 100, 100);
+    context.fillText("1T multi", 735 * scale, 670 * scale, 100, 100);
+    context.fillText("500K reb", 730 * scale, 750 * scale, 100, 100);
+    context.fillText("75T multi", 730 * scale, 770 * scale, 100, 100);
+    context.fillText("1M reb", 735 * scale, 850 * scale, 100, 100);
+    context.fillText("400T multi", 730 * scale, 870 * scale, 100, 100);
+    context.fillText("6M reb", 835 * scale, 250 * scale, 100, 100);
+    context.fillText("2Qd multi", 830 * scale, 270 * scale, 100, 100);
+    context.fillText("30M reb", 830 * scale, 350 * scale, 100, 100);
+    context.fillText("15Qd multi", 825 * scale, 370 * scale, 100, 100);
+    context.fillText("100M reb", 830 * scale, 450 * scale, 100, 100);
+    context.fillText("50Qd multi", 825 * scale, 470 * scale, 100, 100);
   }
   //stone buttons
   {
     context.fillStyle = 'gray';
-    context.fillRect(825, 525, 75, 75);
-    context.fillRect(825, 625, 75, 75);
-    context.fillRect(825, 725, 75, 75);
+    context.fillRect(825 * scale, 525 * scale, 75 * scale, 75 * scale);
+    context.fillRect(825 * scale, 625 * scale, 75 * scale, 75 * scale);
+    context.fillRect(825 * scale, 725 * scale, 75 * scale, 75 * scale);
     context.fillStyle = 'black';
-    context.fillText("1 stone", 835, 550, 100, 100);
-    context.fillText("30K reb", 835, 570, 100, 100);
-    context.fillText("3 stone", 835, 650, 100, 100);
-    context.fillText("30M reb", 835, 670, 100, 100);
-    context.fillText("6 stone", 835, 750, 100, 100);
-    context.fillText("600M reb", 830, 770, 100, 100);
+    context.fillText("1 stone", 835 * scale, 550 * scale, 100, 100);
+    context.fillText("30K reb", 835 * scale, 570 * scale, 100, 100);
+    context.fillText("3 stone", 835 * scale, 650 * scale, 100, 100);
+    context.fillText("30M reb", 835 * scale, 670 * scale, 100, 100);
+    context.fillText("6 stone", 835 * scale, 750 * scale, 100, 100);
+    context.fillText("600M reb", 830 * scale, 770 * scale, 100, 100);
   }
   //portals
   {
     context.fillStyle = 'gray';
-    context.fillRect(1525, 225, 75, 75);
+    context.fillRect(1525 * scale, 225 * scale, 75 * scale, 75 * scale);
     context.fillStyle = '#ff00ff'
-    context.fillRect(1525, 325, 75, 75);
+    context.fillRect(1525 * scale, 325 * scale, 75 * scale, 75 * scale);
     context.fillStyle = 'black';
-    context.font = '30px Arial';
-    context.fillText("C", 1550, 250, 75, 75);
-    context.fillText("CB", 1540, 350, 75, 75);
-    context.font = '15px Arial';
-    context.fillText("10 stone", 1535, 270, 1000, 1000);
-    context.fillText("100", 1545, 370, 1000, 1000);
-    context.fillText("white gems", 1525, 385, 1000, 1000);
+    context.font = 30 * scale + 'px Arial';
+    context.fillText("C", 1550 * scale, 250 * scale, 75, 75);
+    context.fillText("CB", 1540 * scale, 350 * scale, 75, 75);
+    context.font = 15 * scale + 'px Arial';
+    context.fillText("10 stone", 1535 * scale, 270 * scale, 1000, 1000);
+    context.fillText("100", 1545 * scale, 370 * scale, 1000, 1000);
+    context.fillText("white gems", 1525 * scale, 385 * scale, 1000, 1000);
   }
   //rebuild buttons
   {
     context.fillStyle = '#FFA500';
-    context.fillRect(825, 825, 75, 75);
+    context.fillRect(825 * scale, 825 * scale, 75 * scale, 75 * scale);
     context.fillStyle = 'black';
-    context.fillText("50Qn cash", 825, 850, 75, 75);
-    context.fillText("15 stone", 830, 870, 75, 75);
+    context.fillText("50Qn cash", 825 * scale, 850 * scale, 75, 75);
+    context.fillText("15 stone", 830 * scale, 870 * scale, 75, 75);
   }
 }
 
@@ -2010,191 +2038,191 @@ function drawSceneCaves() {
 function drawSceneCrystalBeneaths() {}
 
 function drawMenus() {
-	let stoneE = stone;
+  let stoneE = stone;
   let whiteGemsE = whiteGems;
   let crystalE = crystal;
   //notation maker
   {
-      if (stone < 1e+3) {
-        stoneE = (stone).toFixed(1);
-      }
-      if (stone >= 1e+3) {
-        stoneE = (stone / 1e+3).toFixed(1).replace(/\.0$/, '') + 'K';
-      }
-      if (stone >= 1e+6) {
-        stoneE = (stone / 1e+6).toFixed(1).replace(/\.0$/, '') + 'M';
-      }
-      if (stone >= 1e+9) {
-        stoneE = (stone / 1e+9).toFixed(1).replace(/\.0$/, '') + 'B';
-      }
-      if (stone >= 1e+12) {
-        stoneE = (stone / 1e+12).toFixed(1).replace(/\.0$/, '') + 'T';
-      }
-      if (stone >= 1e+15) {
-        stoneE = (stone / 1e+15).toFixed(1).replace(/\.0$/, '') + 'Qd';
-      }
-      if (stone >= 1e+18) {
-        stoneE = (stone / 1e+18).toFixed(1).replace(/\.0$/, '') + 'Qn';
-      }
-      if (stone >= 1e+21) {
-        stoneE = (stone / 1e+21).toFixed(1).replace(/\.0$/, '') + 'Sx';
-      }
-      if (stone >= 1e+24) {
-        stoneE = (stone / 1e+24).toFixed(1).replace(/\.0$/, '') + 'Sp';
-      }
-      if (stone >= 1e+27) {
-        stoneE = (stone / 1e+27).toFixed(1).replace(/\.0$/, '') + 'Oc';
-      }
-      if (stone >= 1e+30) {
-        stoneE = (stone / 1e+30).toFixed(1).replace(/\.0$/, '') + 'No';
-      }
-      if (stone >= 1e+33) {
-        stoneE = (stone / 1e+33).toFixed(1).replace(/\.0$/, '') + 'De';
-      }
-      if (stone >= 1e+36) {
-        stoneE = (stone / 1e+36).toFixed(1).replace(/\.0$/, '') + 'UDe';
-      }
-      if (stone >= 1e+39) {
-        stoneE = (stone / 1e+39).toFixed(1).replace(/\.0$/, '') + 'DDe';
-      }
-      if (stone >= 1e+42) {
-        stoneE = (stone / 1e+42).toFixed(1).replace(/\.0$/, '') + 'TDe';
-      }
-      if (stone >= 1e+45) {
-        stoneE = (stone / 1e+45).toFixed(1).replace(/\.0$/, '') + 'QdDe';
-      }
-      if (stone >= 1e+48) {
-        stoneE = (stone / 1e+48).toFixed(1).replace(/\.0$/, '') + 'QnDe';
-      }
-      if (stone >= 1e+51) {
-        stoneE = (stone / 1e+51).toFixed(1).replace(/\.0$/, '') + 'SxDe';
-      }
-      if (stone >= 1e+54) {
-        stoneE = (stone / 1e+54).toFixed(1).replace(/\.0$/, '') + 'SpDe';
-      }
-      if (stone >= 1e+57) {
-        stoneE = (stone / 1e+57).toFixed(1).replace(/\.0$/, '') + 'ODe';
-      }
-      if (stone >= 1e60) {
-        stoneE = (stone / 1e+60).toFixed(1).replace(/\.0$/, '') + 'NoDe';
-      }
-      if (stone >= 1e+63) {
-        stoneE = (stone / 1e+63).toFixed(1).replace(/\.0$/, '') + 'Vt';
-      }
-      if (stone >= 1e+66) {
-        stoneE = (stone / 1e+66).toFixed(1).replace(/\.0$/, '') + 'UVt';
-      }
-      if (stone >= 1e+69) {
-        stoneE = (stone / 1e+69).toFixed(1).replace(/\.0$/, '') + 'DVt';
-      }
-      if (stone >= 1e+72) {
-        stoneE = (stone / 1e+72).toFixed(1).replace(/\.0$/, '') + 'TVt';
-      }
-      if (stone >= 1e+75) {
-        stoneE = (stone / 1e+75).toFixed(1).replace(/\.0$/, '') + 'QdVt';
-      }
-      if (stone >= 1e+78) {
-        stoneE = (stone / 1e+78).toFixed(1).replace(/\.0$/, '') + 'QnVt';
-      }
-      if (stone >= 1e+81) {
-        stoneE = (stone / 1e+81).toFixed(1).replace(/\.0$/, '') + 'SxVt';
-      }
-      if (stone >= 1e+84) {
-        stoneE = (stone / 1e+84).toFixed(1).replace(/\.0$/, '') + 'SpVt';
-      }
-      if (stone >= 1e+87) {
-        stoneE = (stone / 1e+87).toFixed(1).replace(/\.0$/, '') + 'OVt';
-      }
-      if (stone >= 1e90) {
-        stoneE = (stone / 1e+90).toFixed(1).replace(/\.0$/, '') + 'NoVt';
-      }
-      if (stone >= 1e+93) {
-        stoneE = (stone / 1e+93).toFixed(1).replace(/\.0$/, '') + 'Tg';
-      }
-      if (stone >= 1e+96) {
-        stoneE = (stone / 1e+96).toFixed(1).replace(/\.0$/, '') + 'UTg';
-      }
-      if (stone >= 1e+99) {
-        stoneE = (stone / 1e+99).toFixed(1).replace(/\.0$/, '') + 'DTg';
-      }
-      if (stone >= 1e+102) {
-        stoneE = (stone / 1e+102).toFixed(1).replace(/\.0$/, '') + 'TTg';
-      }
-      if (stone >= 1e+105) {
-        stoneE = (stone / 1e+105).toFixed(1).replace(/\.0$/, '') + 'QdTg';
-      }
-      if (stone >= 1e+108) {
-        stoneE = (stone / 1e+108).toFixed(1).replace(/\.0$/, '') + 'QnTg';
-      }
-      if (stone >= 1e+111) {
-        stoneE = (stone / 1e+111).toFixed(1).replace(/\.0$/, '') + 'SxTg';
-      }
-      if (stone >= 1e+114) {
-        stoneE = (stone / 1e+114).toFixed(1).replace(/\.0$/, '') + 'SpTg';
-      }
-      if (stone >= 1e+117) {
-        stoneE = (stone / 1e+117).toFixed(1).replace(/\.0$/, '') + 'OTg';
-      }
-      if (stone >= 1e120) {
-        stoneE = (stone / 1e+120).toFixed(1).replace(/\.0$/, '') + 'NoTg';
-      }
-      if (stone >= 1e+123) {
-        stoneE = (stone / 1e+123).toFixed(1).replace(/\.0$/, '') + 'Qdg';
-      }
+    if (stone < 1e+3) {
+      stoneE = (stone).toFixed(1);
     }
-	if (upgrades === true) {
-  	context.fillStyle = 'lightgrey';
-    context.fillRect(600,200,720,680);
+    if (stone >= 1e+3) {
+      stoneE = (stone / 1e+3).toFixed(1).replace(/\.0$/, '') + 'K';
+    }
+    if (stone >= 1e+6) {
+      stoneE = (stone / 1e+6).toFixed(1).replace(/\.0$/, '') + 'M';
+    }
+    if (stone >= 1e+9) {
+      stoneE = (stone / 1e+9).toFixed(1).replace(/\.0$/, '') + 'B';
+    }
+    if (stone >= 1e+12) {
+      stoneE = (stone / 1e+12).toFixed(1).replace(/\.0$/, '') + 'T';
+    }
+    if (stone >= 1e+15) {
+      stoneE = (stone / 1e+15).toFixed(1).replace(/\.0$/, '') + 'Qd';
+    }
+    if (stone >= 1e+18) {
+      stoneE = (stone / 1e+18).toFixed(1).replace(/\.0$/, '') + 'Qn';
+    }
+    if (stone >= 1e+21) {
+      stoneE = (stone / 1e+21).toFixed(1).replace(/\.0$/, '') + 'Sx';
+    }
+    if (stone >= 1e+24) {
+      stoneE = (stone / 1e+24).toFixed(1).replace(/\.0$/, '') + 'Sp';
+    }
+    if (stone >= 1e+27) {
+      stoneE = (stone / 1e+27).toFixed(1).replace(/\.0$/, '') + 'Oc';
+    }
+    if (stone >= 1e+30) {
+      stoneE = (stone / 1e+30).toFixed(1).replace(/\.0$/, '') + 'No';
+    }
+    if (stone >= 1e+33) {
+      stoneE = (stone / 1e+33).toFixed(1).replace(/\.0$/, '') + 'De';
+    }
+    if (stone >= 1e+36) {
+      stoneE = (stone / 1e+36).toFixed(1).replace(/\.0$/, '') + 'UDe';
+    }
+    if (stone >= 1e+39) {
+      stoneE = (stone / 1e+39).toFixed(1).replace(/\.0$/, '') + 'DDe';
+    }
+    if (stone >= 1e+42) {
+      stoneE = (stone / 1e+42).toFixed(1).replace(/\.0$/, '') + 'TDe';
+    }
+    if (stone >= 1e+45) {
+      stoneE = (stone / 1e+45).toFixed(1).replace(/\.0$/, '') + 'QdDe';
+    }
+    if (stone >= 1e+48) {
+      stoneE = (stone / 1e+48).toFixed(1).replace(/\.0$/, '') + 'QnDe';
+    }
+    if (stone >= 1e+51) {
+      stoneE = (stone / 1e+51).toFixed(1).replace(/\.0$/, '') + 'SxDe';
+    }
+    if (stone >= 1e+54) {
+      stoneE = (stone / 1e+54).toFixed(1).replace(/\.0$/, '') + 'SpDe';
+    }
+    if (stone >= 1e+57) {
+      stoneE = (stone / 1e+57).toFixed(1).replace(/\.0$/, '') + 'ODe';
+    }
+    if (stone >= 1e60) {
+      stoneE = (stone / 1e+60).toFixed(1).replace(/\.0$/, '') + 'NoDe';
+    }
+    if (stone >= 1e+63) {
+      stoneE = (stone / 1e+63).toFixed(1).replace(/\.0$/, '') + 'Vt';
+    }
+    if (stone >= 1e+66) {
+      stoneE = (stone / 1e+66).toFixed(1).replace(/\.0$/, '') + 'UVt';
+    }
+    if (stone >= 1e+69) {
+      stoneE = (stone / 1e+69).toFixed(1).replace(/\.0$/, '') + 'DVt';
+    }
+    if (stone >= 1e+72) {
+      stoneE = (stone / 1e+72).toFixed(1).replace(/\.0$/, '') + 'TVt';
+    }
+    if (stone >= 1e+75) {
+      stoneE = (stone / 1e+75).toFixed(1).replace(/\.0$/, '') + 'QdVt';
+    }
+    if (stone >= 1e+78) {
+      stoneE = (stone / 1e+78).toFixed(1).replace(/\.0$/, '') + 'QnVt';
+    }
+    if (stone >= 1e+81) {
+      stoneE = (stone / 1e+81).toFixed(1).replace(/\.0$/, '') + 'SxVt';
+    }
+    if (stone >= 1e+84) {
+      stoneE = (stone / 1e+84).toFixed(1).replace(/\.0$/, '') + 'SpVt';
+    }
+    if (stone >= 1e+87) {
+      stoneE = (stone / 1e+87).toFixed(1).replace(/\.0$/, '') + 'OVt';
+    }
+    if (stone >= 1e90) {
+      stoneE = (stone / 1e+90).toFixed(1).replace(/\.0$/, '') + 'NoVt';
+    }
+    if (stone >= 1e+93) {
+      stoneE = (stone / 1e+93).toFixed(1).replace(/\.0$/, '') + 'Tg';
+    }
+    if (stone >= 1e+96) {
+      stoneE = (stone / 1e+96).toFixed(1).replace(/\.0$/, '') + 'UTg';
+    }
+    if (stone >= 1e+99) {
+      stoneE = (stone / 1e+99).toFixed(1).replace(/\.0$/, '') + 'DTg';
+    }
+    if (stone >= 1e+102) {
+      stoneE = (stone / 1e+102).toFixed(1).replace(/\.0$/, '') + 'TTg';
+    }
+    if (stone >= 1e+105) {
+      stoneE = (stone / 1e+105).toFixed(1).replace(/\.0$/, '') + 'QdTg';
+    }
+    if (stone >= 1e+108) {
+      stoneE = (stone / 1e+108).toFixed(1).replace(/\.0$/, '') + 'QnTg';
+    }
+    if (stone >= 1e+111) {
+      stoneE = (stone / 1e+111).toFixed(1).replace(/\.0$/, '') + 'SxTg';
+    }
+    if (stone >= 1e+114) {
+      stoneE = (stone / 1e+114).toFixed(1).replace(/\.0$/, '') + 'SpTg';
+    }
+    if (stone >= 1e+117) {
+      stoneE = (stone / 1e+117).toFixed(1).replace(/\.0$/, '') + 'OTg';
+    }
+    if (stone >= 1e120) {
+      stoneE = (stone / 1e+120).toFixed(1).replace(/\.0$/, '') + 'NoTg';
+    }
+    if (stone >= 1e+123) {
+      stoneE = (stone / 1e+123).toFixed(1).replace(/\.0$/, '') + 'Qdg';
+    }
+  }
+  if (upgrades === true) {
+    context.fillStyle = 'lightgrey';
+    context.fillRect(600 * scale, 200 * scale, 720 * scale, 680 * scale);
     context.strokeStyle = 'black';
-    context.strokeRect(1245,200,75,75);
+    context.strokeRect(1245 * scale, 200 * scale, 75 * scale, 75 * scale);
     context.fillStyle = 'black';
-    context.font = '50px Arial';
-    context.fillText("X",1265,250,100,100);
+    context.font = 50 * scale + 'px Arial';
+    context.fillText("X", 1265 * scale, 250 * scale, 100, 100);
   }
   if (stats === true) {
-  	context.fillStyle = 'lightgrey';
-  	context.fillRect(600,200,720,680);
+    context.fillStyle = 'lightgrey';
+    context.fillRect(600 * scale, 200 * scale, 720 * scale, 680 * scale);
     context.strokeStyle = 'black';
-    context.strokeRect(1245,200,75,75);
+    context.strokeRect(1245 * scale, 200 * scale, 75 * scale, 75 * scale);
     context.fillStyle = 'black';
-    context.font = '50px Arial';
-    context.fillText("X",1265,250,100,100);
-    context.font = '35px Arial';
+    context.font = 50 * scale + 'px Arial';
+    context.fillText("X", 1265 * scale, 250 * scale, 100, 100);
+    context.font = 35 * scale + 'px Arial';
     context.fillStyle = 'gray';
-    context.fillText("stone:",780,350,1000,1000);
-    context.fillText(stoneE,885,350,1000,1000);
+    context.fillText("stone:", 780 * scale, 350 * scale, 1000, 1000);
+    context.fillText(stoneE, 885 * scale, 350 * scale, 1000, 1000);
     context.fillStyle = 'white';
-    context.fillText("white gems:",780,400,1000,1000);
-    context.fillText(whiteGemsE,970,400,1000,1000);
+    context.fillText("white gems:", 780 * scale, 400 * scale, 1000, 1000);
+    context.fillText(whiteGemsE, 970 * scale, 400 * scale, 1000, 1000);
     context.fillStyle = 'magenta';
-    context.fillText("crystal:",780,450,1000,1000);
-    context.fillText(crystalE,900,450,1000,1000);
+    context.fillText("crystal:", 780 * scale, 450 * scale, 1000, 1000);
+    context.fillText(crystalE, 900 * scale, 450 * scale, 1000, 1000);
   }
 }
 
 function sceneChanger(event) {
   let mouseX = event.pageX
   let mouseY = event.pageY
-  if (scene === 'spawn' && stone >= 10 && mouseX >= 1525 && mouseX <= 1600 && mouseY >= 225 && mouseY <= 300) {
+  if (scene === 'spawn' && stone >= 10 && mouseX >= 1525 * scale && mouseX <= 1600 * scale && mouseY >= 225 * scale && mouseY <= 300 * scale) {
     scene = 'cavesB';
   }
-  if (scene === 'spawn' && whiteGems >= 100 && mouseX >= 1525 && mouseX <= 1600 && mouseY >= 325 && mouseY <= 400) {
+  if (scene === 'spawn' && whiteGems >= 100 && mouseX >= 1525 * scale && mouseX <= 1600 * scale && mouseY >= 325 * scale && mouseY <= 400 * scale) {
     scene = 'crystal beneathsB';
   }
-  if (scene === 'caves' && mouseX >= 1525 && mouseX <= 1600 && mouseY >= 225 && mouseY <= 300) {
+  if (scene === 'caves' && mouseX >= 1525 * scale && mouseX <= 1600 * scale && mouseY >= 225 * scale && mouseY <= 300 * scale) {
     scene = 'spawnB';
   }
-  if (mouseX >= 30 && mouseX <= 230 && mouseY >= 465 && mouseY <= 565) {
-  	upgrades = true;
+  if (mouseX >= 30 * scale && mouseX <= 230 * scale && mouseY >= 465 * scale && mouseY <= 565 * scale) {
+    upgrades = true;
   }
-  if (mouseX >= 30 && mouseX <= 230 && mouseY >= 615 && mouseY <= 715) {
-  	stats = true;
+  if (mouseX >= 30 * scale && mouseX <= 230 * scale && mouseY >= 615 * scale && mouseY <= 715 * scale) {
+    stats = true;
   }
-  if (upgrades === true && mouseX >= 1245 && mouseX <= 1320 && mouseY >= 200 && mouseY <= 275) {
-  	upgrades = false;
+  if (upgrades === true && mouseX >= 1245 * scale && mouseX <= 1320 * scale && mouseY >= 200 * scale && mouseY <= 275 * scale) {
+    upgrades = false;
   }
-  if (stats === true && mouseX >= 1245 && mouseX <= 1320 && mouseY >= 200 && mouseY <= 275) {
-  	stats = false;
+  if (stats === true && mouseX >= 1245 * scale && mouseX <= 1320 * scale && mouseY >= 200 * scale && mouseY <= 275 * scale) {
+    stats = false;
   }
 }
 
@@ -2210,4 +2238,5 @@ function draw() {
   if (multi >= 1) {
     cash += 1 * multi * 2;
   }
+  saveGame();
 }
