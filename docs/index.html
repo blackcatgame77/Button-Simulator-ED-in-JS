@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+=<!DOCTYPE html>
 <html lang="en">
 
   <head>
@@ -7,11 +7,10 @@
     <title>Button simulator</title>
     <meta name="description" content="A basic button simulator">
     <meta name="author" content="Blackcatgame77">
-    <script type="text/javascript" src="main.js"></script>
   </head>
 
   <body>
-    <canvas id="canvas" width="1920" height="1080" style="border:1px solid lightgrey;">
+    <canvas id="canvas1" width=1920 height=1080 style="border:1px solid lightgrey;">
       Your browser does not support the HTML5 canvas tag.
     </canvas>
     <script>
@@ -29,10 +28,14 @@
         whiteGemsGiver(event);
         rebuildGiver(event);
       }
+
       function init() {
-        canvas = document.getElementById('canvas');
+        canvas1.width = 1920 * scale;
+        canvas1.height = 1080 * scale;
+        canvas = document.getElementById('canvas1');
         context = canvas.getContext('2d');
         window.requestAnimationFrame(gameLoop);
+        loadGame();
       }
 
       function gameLoop(timeStamp) {
